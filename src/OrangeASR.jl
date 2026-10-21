@@ -72,10 +72,37 @@ function forwarding(data, t; mode=:path_uniform)
     return (; dist, r, active)
 end
 
+"""Feasible period-0 starting solution: one direct node segment per demand.
+This uses default shortest-path forwarding, not necessarily a physical direct arc.
+Returns nothing if the data do not support this starting solution.
+"""
+function nominal_start(data, coefficients)
+    data.maxseg >= 1 || return nothing
+    n, m = length(data.ids), length(data.arcs)
+    loads = zeros(m)
+    for demand in data.demands
+        demand.s != demand.target || return nothing
+        isfinite(coefficients.dist[demand.s,demand.target]) || return nothing
+        for a in 1:m
+            loads[a] += demand.volume[1] * coefficients.r[demand.s,demand.target,a]
+        end
+    end
+    active_arcs = findall(coefficients.active)
+    isempty(active_arcs) && return nothing
+    all(isfinite, loads) || error("Non-finite no-waypoint traffic")
+    all(abs(loads[a]) <= 1e-8 for a in 1:m if !coefficients.active[a]) ||
+        error("No-waypoint start uses an inactive arc")
+    mlu = maximum(loads[a] / data.arcs[a].capacity for a in active_arcs)
+    # Source and unused nodes have order zero, target has order one.
+    # Each selected source-target segment satisfies the order constraint;
+    # all unselected segments satisfy its big-M relaxation for n >= 2.
+    return (; mlu, loads)
+end
+
 """Joint-period MILP baseline: minimize maximum link utilization.
 Degree and order constraints enforce simple paths in segment space.
 """
-function solve_mlu(data; periods=[0], limit=1800.0, seed=1, threads=1, mode=:path_uniform, max_variables=1_000_000)
+function solve_mlu(data; periods=[0], limit=1800.0, seed=1, threads=1, mode=:path_uniform, max_variables=1_000_000, warm_start=true)
     periods == collect(0:maximum(periods)) || error("Periods must be consecutive from 0")
     maximum(periods) < data.periods || error("Missing time slots")
     n, nd = length(data.ids), length(data.demands)
@@ -135,6 +162,21 @@ function solve_mlu(data; periods=[0], limit=1800.0, seed=1, threads=1, mode=:pat
         @constraint(model,changes <= data.budget[t])
     end
     @objective(model,Min,U)
+    # Keep this first improvement focused on the nominal period-0 model.
+    start = periods == [0] ? nominal_start(data,coeff[0]) : nothing
+    start_applied = warm_start && start !== nothing
+    if start_applied
+        for k in keys
+            d,t,i,j = k
+            demand = data.demands[d]
+            set_start_value(x[k], (i == demand.s && j == demand.target) ? 1.0 : 0.0)
+        end
+        for d in 1:nd, i in 1:n
+            set_start_value(position[d,0,i], i == data.demands[d].target ? 1.0 : 0.0)
+        end
+        set_start_value(U,start.mlu)
+        println("No-waypoint MIP start supplied; MLU = ",start.mlu)
+    end
     build_seconds = (time_ns()-build_started)/1e9
     elapsed = @elapsed optimize!(model)
     result = Dict{String,Any}("objective_kind"=>"MLU baseline (not full lexicographic)",
@@ -142,14 +184,21 @@ function solve_mlu(data; periods=[0], limit=1800.0, seed=1, threads=1, mode=:pat
         "nodes"=>n,"arcs"=>length(data.arcs),"demands"=>nd,
         "termination_status"=>string(termination_status(model)),"optimize_elapsed_seconds"=>elapsed,
         "time_limit_seconds"=>limit,"solver"=>"HiGHS",
+        "implementation_version"=>"mlu-warmstart-v1",
+        "warm_start_requested"=>warm_start,"warm_start_supplied"=>start_applied,
+        "no_waypoint_mlu"=>(start === nothing ? nothing : start.mlu),
         "julia_version"=>string(VERSION),"solver_version"=>string(MOI.get(model,MOI.SolverVersion())),
         "machine"=>Sys.MACHINE,"cpu"=>Sys.cpu_info()[1].model,
         "preprocess_seconds"=>preprocess_seconds,"build_seconds"=>build_seconds,
         "binary_variables"=>length(keys),"total_variables"=>num_variables(model))
+    # Solver clock and the outer optimize! clock need not cover identical work.
+    result["solver_reported_seconds"] = try solve_time(model) catch; nothing end
+    result["primal_status"] = string(primal_status(model))
+    result["raw_status"] = raw_status(model)
     result["best_bound"] = try objective_bound(model) catch; nothing end
     result["best_bound"] = result["best_bound"] isa Real && isfinite(result["best_bound"]) ? result["best_bound"] : nothing
     result["bb_nodes"] = try MOI.get(model,MOI.NodeCount()) catch; nothing end
-    if has_values(model)
+    if has_values(model) && primal_status(model) == MOI.FEASIBLE_POINT
         objective = objective_value(model)
         result["objective"] = objective
         bound = result["best_bound"]
@@ -160,7 +209,7 @@ function solve_mlu(data; periods=[0], limit=1800.0, seed=1, threads=1, mode=:pat
         for t in periods
             loads = zeros(length(data.arcs))
             for d in 1:nd
-                edges = Set((k[3],k[4]) for k in keys if k[1]==d && k[2]==t && value(x[k])>0.5)
+                edges = Set((k[3],k[4]) for k in by_dt[(d,t)] if value(x[k])>0.5)
                 selected[(d,t)] = edges
                 path = [data.demands[d].s]
                 while last(path) != data.demands[d].target
@@ -190,7 +239,7 @@ function solve_mlu(data; periods=[0], limit=1800.0, seed=1, threads=1, mode=:pat
     else
         result["objective"] = nothing
         result["gap"] = nothing
-        result["validation"] = "no incumbent available"
+        result["validation"] = "no solver-confirmed feasible incumbent available; supplied start is not counted as an incumbent"
     end
     return result
 end
