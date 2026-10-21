@@ -1,0 +1,46 @@
+{
+  "nodes": 20,
+  "arcs": 80,
+  "demands": 40,
+  "max_segments": 6,
+  "periods": [
+    {
+      "t": 0,
+      "active_arcs": 80,
+      "down_arc_ids": [],
+      "total_traffic": 3225.4751,
+      "reachable_ordered_pairs": 380,
+      "pairs_with_different_forwarding": 0,
+      "no_waypoint_baseline": {
+        "ecmp": {
+          "mlu": 1.0000006861063466,
+          "most_loaded_arc": 32
+        },
+        "path_uniform": {
+          "mlu": 1.0000006861063466,
+          "most_loaded_arc": 32
+        }
+      }
+    },
+    {
+      "t": 1,
+      "active_arcs": 79,
+      "down_arc_ids": [
+        22
+      ],
+      "total_traffic": 2146.4067999999997,
+      "reachable_ordered_pairs": 380,
+      "pairs_with_different_forwarding": 0,
+      "no_waypoint_baseline": {
+        "ecmp": {
+          "mlu": 0.5663266666666666,
+          "most_loaded_arc": 36
+        },
+        "path_uniform": {
+          "mlu": 0.5663266666666666,
+          "most_loaded_arc": 36
+        }
+      }
+    }
+  ]
+}

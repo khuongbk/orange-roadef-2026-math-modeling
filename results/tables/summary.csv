@@ -1,0 +1,5 @@
+experiment,instance,periods,forwarding,limit,runs_available,optimal_runs,runs_with_incumbent,statuses,objective_samples,objective_mean,best_bound_samples,best_bound_mean,gap_samples,gap_mean,optimize_elapsed_seconds_samples,optimize_elapsed_seconds_mean,bb_nodes_samples,bb_nodes_mean
+.,setA-02,0,path_uniform,60,1,1,1,"{""OPTIMAL"": 1}",1,0.5485780439121757,1,0.5485780439121757,1,0,1,5.668227697,1,1
+.,setA-03,0,path_uniform,60,1,0,1,"{""TIME_LIMIT"": 1}",1,0.9435434146341464,1,0.939422461966943,1,0.0043675284075839205,1,63.364957013,1,0
+.,setA-04,0,path_uniform,60,1,0,0,"{""TIME_LIMIT"": 1}",0,,1,0.40806256077795783,0,,1,133.28466989,1,0
+smoke-2026-10-21,setA-01,0,path_uniform,60,1,1,1,"{""OPTIMAL"": 1}",1,0.929383899821109,1,0.929383899821109,1,0,1,2.729973237,1,1

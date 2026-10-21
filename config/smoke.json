@@ -1,0 +1,9 @@
+{
+  "mode": "single",
+  "time_limit_seconds": 60,
+  "runs": 1,
+  "forwarding": "path_uniform",
+  "instances": [
+    "setA-01"
+  ]
+}

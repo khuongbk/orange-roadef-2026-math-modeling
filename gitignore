@@ -1,0 +1,67 @@
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Operating system and editor temporary files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+~$*
+
+# Julia local files (keep Project.toml and Manifest.toml tracked)
+.julia/
+LocalPreferences.toml
+
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# Local input datasets
+/data/raw/**
+!/data/raw/SetA/
+!/data/raw/SetA/.gitkeep
+
+# Generated preprocessing data
+/data/processed/**
+!/data/processed/.gitkeep
+
+# Per-run outputs (keep results/tables and results/figures tracked)
+/results/raw/**
+!/results/raw/.gitkeep
+
+# Local reference documents
+/docs/reference/**
+!/docs/reference/.gitkeep
+
+# PDF, Word, PowerPoint and OpenDocument files (case insensitive)
+*.[pP][dD][fF]
+*.[dD][oO][cC]
+*.[dD][oO][cC][xX]
+*.[dD][oO][cC][mM]
+*.[rR][tT][fF]
+*.[pP][pP][tT]
+*.[pP][pP][tT][xX]
+*.[pP][pP][tT][mM]
+*.[oO][dD][tT]
+*.[oO][dD][pP]
+
+# LaTeX build files (keep .tex and .bib sources tracked)
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.out
+*.run.xml
+*.synctex.gz
+*.toc

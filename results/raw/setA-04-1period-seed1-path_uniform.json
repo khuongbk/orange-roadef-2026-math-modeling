@@ -1,0 +1,31 @@
+{
+    "binary_variables": 490000,
+    "objective_kind": "MLU baseline (not full lexicographic)",
+    "julia_version": "1.13.2",
+    "time_limit_seconds": 60,
+    "nodes": 50,
+    "demands": 200,
+    "seed": 1,
+    "threads": 1,
+    "best_bound": 0.40806256077795783,
+    "solver_version": "v1.15.1",
+    "validation": "no incumbent available",
+    "preprocess_seconds": 0.17971809,
+    "solver": "HiGHS",
+    "bb_nodes": 0,
+    "machine": "x86_64-linux-gnu",
+    "total_variables": 500001,
+    "arcs": 250,
+    "termination_status": "TIME_LIMIT",
+    "objective": null,
+    "end_to_end_seconds": 155.79305505752563,
+    "build_seconds": 14.429159725,
+    "cpu": "13th Gen Intel(R) Core(TM) i7-13650HX",
+    "instance": "setA-04",
+    "periods": [
+        0
+    ],
+    "gap": null,
+    "optimize_elapsed_seconds": 133.28466989,
+    "forwarding": "path_uniform"
+}
