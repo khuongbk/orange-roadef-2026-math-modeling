@@ -1,0 +1,14 @@
+{
+    "unreachable_ordered_pairs": 0,
+    "julia_version": "1.13.2",
+    "pairs_with_multiple_shortest_paths": 30,
+    "maximum_shortest_path_count": "2",
+    "full_coefficients_exported": false,
+    "reachable_ordered_pairs": 62250,
+    "period": 0,
+    "instance": "setA-14",
+    "vertices": 250,
+    "links": 1108,
+    "arithmetic": "exact decimal metrics, BigInt distances/counts, Rational{BigInt} coefficients",
+    "forwarding": "path_uniform per calculating_r.pdf"
+}

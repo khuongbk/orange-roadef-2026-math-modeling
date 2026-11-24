@@ -1,0 +1,25 @@
+{
+    "scope": "Data only; no optimization or experiment runs",
+    "MaxSeg": 6,
+    "julia_version": "1.13.2",
+    "source_files": {
+        "net": "/home/khuong/workspace/orange-roadef-2026-math-modeling/notebooks/step04_data/data/setA-09-net.json",
+        "tm": "/home/khuong/workspace/orange-roadef-2026-math-modeling/notebooks/step04_data/data/setA-09-tm.json",
+        "scenario": "/home/khuong/workspace/orange-roadef-2026-math-modeling/notebooks/step04_data/data/setA-09-scenario.json"
+    },
+    "demands": 200,
+    "input_sha256": {
+        "net": "cafea225b98baa0e60d2ede0cb08b4e5dca5a310de9afa3ea7db9e97bfc15c51",
+        "tm": "9ed7370c8be0f00d28e9023272bb15aa21edf53105b20e445093a19465931671",
+        "scenario": "a260fea23c66a1bb393042f5378a72e54b05cc78e7b54258887f6e487b1841a3"
+    },
+    "total_traffic_period0": "14223167//2000",
+    "budget_constraint_in_period0": false,
+    "period": 0,
+    "instance": "setA-09",
+    "validation": "Input schema, positive capacities/metrics, valid demand endpoints/traffic, period-0 reachability and no period-0 intervention checked",
+    "r_representation": "exact on-demand from all-pairs distances/counts; no dense 4D tensor",
+    "vertices": 150,
+    "links": 750,
+    "forwarding": "path_uniform per calculating_r.pdf"
+}
