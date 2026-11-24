@@ -1,0 +1,22 @@
+{
+  "instance": "setA-14",
+  "period": 0,
+  "vertices": 250,
+  "links": 1108,
+  "reachable_ordered_pairs": 62250,
+  "unreachable_ordered_pairs": 0,
+  "pairs_with_multiple_shortest_paths": 30,
+  "maximum_shortest_path_count": 2,
+  "nonzero_coefficients": 375560,
+  "fractional_nonzero_coefficients": 402,
+  "all_reachable_pairs_checked": 62250,
+  "checks": [
+    "exact flow conservation",
+    "0 < nonzero r <= 1",
+    "sum(r * metric) == shortest distance"
+  ],
+  "arithmetic": "exact rational coefficients; integer-scaled decimal metrics",
+  "forwarding": "path_uniform per calculating_r.pdf",
+  "input_sha256": "779364ffbae366e1943dcf913f61ce8cc0928fcd52c158660b4eb7c68b1446cb",
+  "preprocessing_elapsed_seconds": 13.449874667000131
+}

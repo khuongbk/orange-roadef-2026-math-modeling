@@ -1,0 +1,36 @@
+{
+    "unreachable_ordered_pairs": 0,
+    "changed_distance_pairs": 27,
+    "scope": "Period-1 preprocessing; budget recorded, not enforced until joint optimization",
+    "changed_traffic_demands": 539,
+    "active_arcs": 1107,
+    "MaxSeg": 6,
+    "unreachable_demands": [
+    ],
+    "budget_period1": 13,
+    "total_traffic_period1": "20408869//10000",
+    "julia_version": "1.13.2",
+    "changed_path_count_pairs": 0,
+    "demands": 600,
+    "input_sha256": {
+        "net": "779364ffbae366e1943dcf913f61ce8cc0928fcd52c158660b4eb7c68b1446cb",
+        "tm": "244b41ce8d5a1cf19e7a42c1b86a0ef4de18a173ccfa24a61a602c3200032d28",
+        "scenario": "e891294997f9580cd976b164faaeb1e182f76338d727a5eb7dbb5f0aba32505a"
+    },
+    "reference_check": {
+        "status": "PASSED",
+        "distance_and_count_pairs": 62250,
+        "coefficient_pairs": 25,
+        "traffic_values_checked": 600,
+        "active_capacities_checked": 1107
+    },
+    "nominal_arcs": 1108,
+    "reachable_ordered_pairs": 62250,
+    "period": 1,
+    "down_arc_ids": [
+        901
+    ],
+    "instance": "setA-14",
+    "vertices": 250,
+    "forwarding": "uniform complete shortest paths"
+}
